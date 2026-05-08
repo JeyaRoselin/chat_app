@@ -1,0 +1,102 @@
+mutation CreateChatSeedData @transaction @auth(level: USER, insecureReason: "Seed data can be created by any authenticated user for testing purposes.") {
+  user_insertMany(data: [
+    {
+      id: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+      username: "alice_chat",
+      displayName: "Alice",
+      email: "alice@example.com",
+      createdAt: "2024-01-01T10:00:00Z"
+    },
+    {
+      id: "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a22",
+      username: "bob_talks",
+      displayName: "Bob",
+      email: "bob@example.com",
+      createdAt: "2024-01-01T10:05:00Z"
+    },
+    {
+      id: "c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a33",
+      username: "charlie_dev",
+      displayName: "Charlie",
+      email: "charlie@example.com",
+      createdAt: "2024-01-01T10:10:00Z"
+    }
+  ])
+  conversation_insertMany(data: [
+    {
+      id: "d0eebc99-9c0b-4ef8-bb6d-6bb9bd380a44",
+      type: "private",
+      name: "Alice & Bob Chat",
+      createdAt: "2024-01-01T10:15:00Z"
+    },
+    {
+      id: "e0eebc99-9c0b-4ef8-bb6d-6bb9bd380a55",
+      type: "group",
+      name: "Dev Team Discussion",
+      description: "Discussion about project development.",
+      createdAt: "2024-01-01T10:20:00Z"
+    }
+  ])
+  membership_insertMany(data: [
+    {
+      userId: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+      conversationId: "d0eebc99-9c0b-4ef8-bb6d-6bb9bd380a44",
+      role: "member",
+      joinedAt: "2024-01-01T10:16:00Z"
+    },
+    {
+      userId: "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a22",
+      conversationId: "d0eebc99-9c0b-4ef8-bb6d-6bb9bd380a44",
+      role: "member",
+      joinedAt: "2024-01-01T10:17:00Z"
+    },
+    {
+      userId: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+      conversationId: "e0eebc99-9c0b-4ef8-bb6d-6bb9bd380a55",
+      role: "admin",
+      joinedAt: "2024-01-01T10:21:00Z"
+    },
+    {
+      userId: "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a22",
+      conversationId: "e0eebc99-9c0b-4ef8-bb6d-6bb9bd380a55",
+      role: "member",
+      joinedAt: "2024-01-01T10:22:00Z"
+    },
+    {
+      userId: "c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a33",
+      conversationId: "e0eebc99-9c0b-4ef8-bb6d-6bb9bd380a55",
+      role: "member",
+      joinedAt: "2024-01-01T10:23:00Z"
+    }
+  ])
+  message_insertMany(data: [
+    {
+      id: "f0eebc99-9c0b-4ef8-bb6d-6bb9bd380a66",
+      conversationId: "d0eebc99-9c0b-4ef8-bb6d-6bb9bd380a44",
+      senderId: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+      content: "Hey Bob, how are you?",
+      sentAt: "2024-01-01T10:30:00Z"
+    },
+    {
+      id: "g0eebc99-9c0b-4ef8-bb6d-6bb9bd380a77",
+      conversationId: "d0eebc99-9c0b-4ef8-bb6d-6bb9bd380a44",
+      senderId: "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a22",
+      content: "I'm great Alice, thanks! How about you?",
+      sentAt: "2024-01-01T10:31:00Z"
+    },
+    {
+      id: "h0eebc99-9c0b-4ef8-bb6d-6bb9bd380a88",
+      conversationId: "e0eebc99-9c0b-4ef8-bb6d-6bb9bd380a55",
+      senderId: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+      content: "Morning team, let's discuss the new feature today.",
+      sentAt: "2024-01-01T10:35:00Z"
+    },
+    {
+      id: "i0eebc99-9c0b-4ef8-bb6d-6bb9bd380a99",
+      conversationId: "e0eebc99-9c0b-4ef8-bb6d-6bb9bd380a55",
+      senderId: "c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a33",
+      content: "Sounds good, Alice! I've been looking into the requirements.",
+      sentAt: "2024-01-01T10:36:00Z"
+    }
+  ])
+}

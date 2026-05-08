@@ -1,0 +1,38 @@
+type User @table {
+  username: String!
+  displayName: String!
+  createdAt: Timestamp!
+  email: String
+  profilePictureUrl: String
+  statusMessage: String
+}
+
+type Conversation @table {
+  type: String!
+  createdAt: Timestamp!
+  name: String
+  description: String
+}
+
+type Membership @table(key: ["user", "conversation"]) {
+  user: User!
+  conversation: Conversation!
+  role: String!
+  joinedAt: Timestamp!
+  lastReadMessageId: UUID
+}
+
+type Message @table {
+  conversation: Conversation!
+  sender: User!
+  content: String!
+  sentAt: Timestamp!
+  mediaUrl: String
+  type: String
+}
+
+type BlockedUser @table(key: ["blocker", "blocked"]) {
+  blocker: User!
+  blocked: User!
+  blockedAt: Timestamp!
+}

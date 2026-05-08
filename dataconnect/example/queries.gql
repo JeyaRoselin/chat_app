@@ -1,0 +1,57 @@
+# Operation 1: Create a New User
+mutation CreateUser($username: String!, $displayName: String!, $email: String!, $profilePictureUrl: String, $statusMessage: String) @auth(level: PUBLIC, insecureReason: "New users need to be able to sign up publicly.") {
+  user_insert(data: {
+    username: $username,
+    displayName: $displayName,
+    email: $email,
+    profilePictureUrl: $profilePictureUrl,
+    statusMessage: $statusMessage,
+    createdAt_expr: "request.time"
+  }) {
+    id
+  }
+}
+
+# Operation 2: Get User Profile by ID
+query GetUserProfile($id: UUID!) @auth(level: USER, insecureReason: "This operation is safe to expose to all logged in users as it fetches public user profile information.") {
+  user(id: $id) {
+    id
+    username
+    displayName
+    profilePictureUrl
+    statusMessage
+    createdAt
+  }
+}
+
+# Operation 3: Send a Message in a Conversation
+mutation SendMessage($conversationId: UUID!, $content: String!, $mediaUrl: String, $type: String) @auth(level: USER) {
+  message_insert(data: {
+    conversationId: $conversationId,
+    senderId_expr: "auth.uid",
+    content: $content,
+    sentAt_expr: "request.time",
+    mediaUrl: $mediaUrl,
+    type: $type
+  }) {
+    id
+  }
+}
+
+# Operation 4: List User's Conversations
+query ListMyConversations @auth(level: USER) {
+  user(id_expr: "auth.uid") {
+    conversations_via_Membership {
+      id
+      name
+      type
+      description
+      createdAt
+      memberships_on_conversation(where: {userId: {eq_expr: "auth.uid"}}) {
+        role
+        joinedAt
+        lastReadMessageId
+      }
+    }
+  }
+}
